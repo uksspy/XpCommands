@@ -1,0 +1,7 @@
+name: XpCommands
+main: me.uksspy.XpCommands.XpCommands
+version: 1.0
+description: Configure certain commands to require xp to execute.
+commands:
+   xpc:
+     description: Master XpCommands command.

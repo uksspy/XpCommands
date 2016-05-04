@@ -1,0 +1,10 @@
+messages:
+  noxp: '&4Insufficient XP'
+  success: '&aCommand executed successfully!'
+  noperm:  '&cNo permission.'
+  
+#Commands that cost XP
+#Format <command>,<xp>(L)
+commands:
+- /ping,10L
+- /help,1000
