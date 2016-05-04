@@ -1,5 +1,11 @@
 package me.uksspy.XpCommands;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.print.attribute.standard.RequestingUserName;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,8 +26,9 @@ public class ListenerClass implements Listener{
 		Player player = event.getPlayer();
 		if(!player.hasPermission("xpc.ignore")){
 			String cmd = event.getMessage().toLowerCase();
-			if(conf.cmdCosts.containsKey(cmd)){
-				XpCost xpCost = conf.cmdCosts.get(cmd);
+			String key = keyBeginning(conf.cmdCosts, cmd);
+			if(key != null){
+				XpCost xpCost = conf.cmdCosts.get(key);
 				if(xpCost.canAfford(player)){
 					if(xpCost.isLevels()){
 						player.setLevel(player.getLevel() - xpCost.getAmount());
@@ -36,5 +43,17 @@ public class ListenerClass implements Listener{
 				}
 			}
 		}
+	}
+	
+	private String keyBeginning(HashMap<String, XpCost> map, String key){
+	    Iterator it = map.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        System.out.println("cmd: " + key + " key: " + pair.getKey());
+	        System.out.println(key.startsWith(pair.getKey().toString()));
+	        if(key.startsWith(pair.getKey().toString())) return pair.getKey().toString();
+	    }
+	    return null;
+		
 	}
 }
