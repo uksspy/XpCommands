@@ -36,9 +36,9 @@ public class ListenerClass implements Listener{
 						ExperienceManager em = new ExperienceManager(player);
 						em.setTotalExperience(em.getTotalExperience() - xpCost.getAmount());
 					}
-					if(conf.successmsg != null)player.sendMessage(conf.successmsg);
+					if(conf.successmsg.length() != 0)player.sendMessage(conf.successmsg);
 				}else{
-					player.sendMessage(conf.noxpmsg);
+					if(conf.noxpmsg.length() != 0)player.sendMessage(conf.noxpmsg);
 					event.setCancelled(true);
 				}
 			}

@@ -49,7 +49,7 @@ public class XpCommands extends JavaPlugin{
 					sender.sendMessage(DARK_RED + "Usage: " + RED + "/xpc add <command> <cost>");
 				}
 			}else{
-				sender.sendMessage(conf.nopermmsg);
+				if(conf.nopermmsg.length() != 0)sender.sendMessage(conf.nopermmsg);
 			}
 		}
 		return false;
