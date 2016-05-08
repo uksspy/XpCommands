@@ -33,6 +33,8 @@ public class Config {
 		noxpmsg = ChatColor.translateAlternateColorCodes('&',config.getString("messages.noxp"));
 		successmsg = ChatColor.translateAlternateColorCodes('&',config.getString("messages.success"));
 		nopermmsg = ChatColor.translateAlternateColorCodes('&',config.getString("messages.noperm"));
-		
+		noxpmsg = config.getString("messages.noxp");
+		successmsg = config.getString("messages.success");
+		nopermmsg = config.getString("messages.noperm");
 	}
 }

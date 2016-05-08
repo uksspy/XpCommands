@@ -4,20 +4,21 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.print.attribute.standard.RequestingUserName;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+
 public class ListenerClass implements Listener{
 
 	private Config conf;
-	
+	boolean placeholderApi;
 	
 	public ListenerClass(XpCommands plugin, Config conf) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		placeholderApi = plugin.placeholderApi;
 		this.conf = conf;
 	} 
 	
@@ -36,9 +37,18 @@ public class ListenerClass implements Listener{
 						ExperienceManager em = new ExperienceManager(player);
 						em.setTotalExperience(em.getTotalExperience() - xpCost.getAmount());
 					}
-					if(conf.successmsg.length() != 0)player.sendMessage(conf.successmsg);
+					if(conf.successmsg.length() != 0){
+						String msg;
+						msg = placeholderApi ? PlaceholderAPI.setPlaceholders(player, conf.successmsg) : conf.successmsg;
+						player.sendMessage(msg);
+					}
+					if(placeholderApi)event.setMessage(PlaceholderAPI.setPlaceholders(player, event.getMessage()));
 				}else{
-					if(conf.noxpmsg.length() != 0)player.sendMessage(conf.noxpmsg);
+					if(conf.noxpmsg.length() != 0){
+						String msg;
+						msg = placeholderApi ? PlaceholderAPI.setPlaceholders(player, conf.noxpmsg) : conf.noxpmsg;
+						player.sendMessage(msg);
+					}
 					event.setCancelled(true);
 				}
 			}
@@ -49,8 +59,6 @@ public class ListenerClass implements Listener{
 	    Iterator it = map.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry pair = (Map.Entry)it.next();
-	        System.out.println("cmd: " + key + " key: " + pair.getKey());
-	        System.out.println(key.startsWith(pair.getKey().toString()));
 	        if(key.startsWith(pair.getKey().toString())) return pair.getKey().toString();
 	    }
 	    return null;

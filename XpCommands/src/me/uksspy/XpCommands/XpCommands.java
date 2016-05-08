@@ -4,20 +4,30 @@ import static org.bukkit.ChatColor.*;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.clip.placeholderapi.PlaceholderAPI;
 
 
 public class XpCommands extends JavaPlugin{
 	
 	Config conf;
+	boolean placeholderApi = false;
 	
 	@Override
 	public void onEnable() {
 		conf = new Config(this);
-		new ListenerClass(this, conf);
 		this.saveDefaultConfig();
+		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
+			placeholderApi = true;
+			new Placeholders(this).hook();
+		}
+		
+		new ListenerClass(this, conf);
 	}
 	
 	@Override
@@ -49,7 +59,16 @@ public class XpCommands extends JavaPlugin{
 					sender.sendMessage(DARK_RED + "Usage: " + RED + "/xpc add <command> <cost>");
 				}
 			}else{
-				if(conf.nopermmsg.length() != 0)sender.sendMessage(conf.nopermmsg);
+				if(conf.nopermmsg.length() != 0){
+					if(sender instanceof Player){
+						Player player = (Player) sender;
+						String msg;
+						msg = placeholderApi ? PlaceholderAPI.setPlaceholders(player, conf.nopermmsg) : conf.nopermmsg;			
+						player.sendMessage(msg);
+					}else{
+						sender.sendMessage(conf.nopermmsg);
+					}
+				}
 			}
 		}
 		return false;
