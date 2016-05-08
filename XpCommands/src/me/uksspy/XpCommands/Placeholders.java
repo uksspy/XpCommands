@@ -16,7 +16,7 @@ public class Placeholders extends EZPlaceholderHook{
 	@Override
 	public String onPlaceholderRequest(Player p, String identifer) {
 		//No placeholders yet
-		if(identifer.equals("test")) return "TTTT";
+		if(identifer.equals("totalxp")) return Integer.toString(new ExperienceManager(p).getTotalExperience());
 		return null;
 	}
 }
