@@ -16,18 +16,19 @@ import me.clip.placeholderapi.PlaceholderAPI;
 public class XpCommands extends JavaPlugin{
 	
 	Config conf;
+	ListenerClass listener;
 	boolean placeholderApi = false;
 	
 	@Override
 	public void onEnable() {
-		conf = new Config(this);
-		this.saveDefaultConfig();
 		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
 			placeholderApi = true;
 			new Placeholders(this).hook();
 		}
+		conf = new Config(this, placeholderApi);
+		this.saveDefaultConfig();
 		
-		new ListenerClass(this, conf);
+		listener = new ListenerClass(this, conf);
 	}
 	
 	@Override
@@ -55,8 +56,15 @@ public class XpCommands extends JavaPlugin{
 					saveConfig();
 					conf.cmdCosts.put(command, new XpCost(levels, amount));
 					sender.sendMessage(GREEN + "Xp command added sucessfully!");
+				}else if(args.length == 1 && args[0].equalsIgnoreCase("reload")){
+					reloadConfig();
+					placeholderApi = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");				
+					conf = new Config(this, placeholderApi);
+					listener.placeholderApi = placeholderApi;
+					listener.conf = conf;
+					sender.sendMessage(GREEN + "XpCommands reloaded.");
 				}else{
-					sender.sendMessage(DARK_RED + "Usage: " + RED + "/xpc add <command> <cost>");
+					sendUsage(sender);
 				}
 			}else{
 				if(conf.nopermmsg.length() != 0){
@@ -72,6 +80,12 @@ public class XpCommands extends JavaPlugin{
 			}
 		}
 		return false;
+	}
+	
+	private void sendUsage(CommandSender sender){
+		sender.sendMessage(DARK_RED + "Usage:");
+		sender.sendMessage(RED + "/xpc add <command> <cost>");
+		sender.sendMessage(RED + "/xpc reload");
 	}
 
 }

@@ -13,7 +13,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 public class ListenerClass implements Listener{
 
-	private Config conf;
+	public Config conf;
 	boolean placeholderApi;
 	
 	public ListenerClass(XpCommands plugin, Config conf) {
