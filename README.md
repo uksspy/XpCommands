@@ -3,6 +3,7 @@ See more information at: https://www.spigotmc.org/resources/xpcommands.22782/
 # Requires
 
 * PlaceHolderAPI - https://www.spigotmc.org/resources/placeholderapi.6245/
+* PlaceHolderAPI Source - https://github.com/extendedclip
 
 # Commands
 ```
